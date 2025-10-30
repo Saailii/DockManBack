@@ -1,14 +1,19 @@
-import config from "./config/config.ts"
 
+import "../instrument.js";
+import config from "./config/config.js"
 import express, { Request, Response } from 'express'
-const router = express()
+import usersRoute from './routes/usersRoutes.js'
+import Sentry from "../utils/sentry.js";
+const app = express()
+app.use(express.json())
 
+Sentry.setupExpressErrorHandler(app);
 
-router.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!')
-})
+app.use('/users', usersRoute)
+app.get("/debug-sentry", function mainHandler(req, res) {
+    throw new Error("My first Sentry error!");
+});
 
-
-router.listen(config.port, () => {
+app.listen(config.port, () => {
     console.log(`Docker Man listening on port ${config.port}`)
 })
