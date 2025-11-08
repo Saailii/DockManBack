@@ -1,5 +1,4 @@
 import express, { ErrorRequestHandler, Request, Response } from 'express'
-import { getDB } from '../../database/db.js'
 import vine from '@vinejs/vine'
 import userSchema from '../validator/userValidator.js';
 import User from '../../classes/User.js'
@@ -13,16 +12,20 @@ export default class UsersController {
     static async create(req: Request, res: Response) {
         try {
 
+            const { userUsername, userPassword } = req.body;
 
-            const { username, password } = req.body;
-
-            const validateData = await vine.validate({ schema: userSchema, data: { username, password } })
+            const validateData = await vine.validate({
+                schema: userSchema,
+                data: { userUsername, userPassword }
+            });
 
             const user: User = new User(validateData.username, validateData.password)
 
             await UserModel.create(user)
 
-            const token = jwt.sign(user, process.env.JWT_SECRET_KEY!, {
+            const { password, ...safeUser } = user
+
+            const token = jwt.sign(safeUser, process.env.JWT_SECRET_KEY!, {
                 expiresIn: "10m"
             })
             res.status(201).json({ token })

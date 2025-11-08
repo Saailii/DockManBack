@@ -5,7 +5,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx tsx src/app.ts"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/Saailii/DockManBack#readme",
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",
+    "@types/dockerode": "^3.3.45",
     "@types/express": "^5.0.5",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.9.2",
@@ -36,9 +38,12 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^6.18.0",
+    "@prisma/client": "^6.18.0",
     "@sentry/node": "^10.22.0",
     "@vinejs/vine": "^4.1.0",
     "bcrypt": "^6.0.0",
+    "dockerode": "^4.0.9",
     "jsonwebtoken": "^9.0.2",
     "sqlite3": "^5.1.7"
   }
